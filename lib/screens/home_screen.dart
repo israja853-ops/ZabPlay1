@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import '../services/video_scanner.dart';
 import 'package:photo_manager/photo_manager.dart';
+
+import '../services/video_scanner.dart';
+import '../services/history_service.dart';
+
 import '../widgets/video_thumbnail_widget.dart';
+
 import 'player_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,17 +20,24 @@ class _HomeScreenState extends State<HomeScreen> {
   List videos = [];
   List shorts = [];
 
+  List<String> history = [];
+
   bool loading = true;
 
   @override
   void initState() {
     super.initState();
+
     loadVideos();
   }
 
   loadVideos() async {
 
-    final result = await VideoScanner.loadVideos();
+    final result =
+        await VideoScanner.loadVideos();
+
+    history =
+        await HistoryService.loadHistory();
 
     for (var video in result) {
 
@@ -47,7 +58,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
 
+      backgroundColor:
+          const Color(0xff050518),
+
       appBar: AppBar(
+
+        elevation: 0,
         backgroundColor: Colors.transparent,
 
         title: const Text(
@@ -56,12 +72,14 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(
             color: Colors.purpleAccent,
             fontSize: 32,
+            fontWeight: FontWeight.bold,
           ),
         ),
 
         actions: [
 
           IconButton(
+
             onPressed: () {},
 
             icon: const Icon(
@@ -71,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           IconButton(
+
             onPressed: () {},
 
             icon: const Icon(
@@ -91,7 +110,110 @@ class _HomeScreenState extends State<HomeScreen> {
 
               children: [
 
+                if (history.isNotEmpty)
+
                 const Padding(
+
+                  padding: EdgeInsets.all(12),
+
+                  child: Text(
+                    "Recently Watched",
+
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight:
+                          FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+                if (history.isNotEmpty)
+
+                SizedBox(
+
+                  height: 220,
+
+                  child: ListView.builder(
+
+                    scrollDirection:
+                        Axis.horizontal,
+
+                    itemCount: history.length,
+
+                    itemBuilder:
+                        (context, index) {
+
+                      final path =
+                          history[index];
+
+                      return Container(
+
+                        width: 170,
+
+                        margin:
+                            const EdgeInsets.all(
+                                10),
+
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius
+                                  .circular(20),
+
+                          color: Colors.black12,
+                        ),
+
+                        child: Stack(
+
+                          children: [
+
+                            Positioned.fill(
+
+                              child:
+                                  VideoThumbnailWidget(
+                                path: path,
+                              ),
+                            ),
+
+                            Positioned(
+
+                              bottom: 10,
+                              left: 10,
+
+                              child: Container(
+
+                                padding:
+                                    const EdgeInsets
+                                        .symmetric(
+                                  horizontal: 10,
+                                  vertical: 5,
+                                ),
+
+                                decoration:
+                                    BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius
+                                          .circular(
+                                              10),
+
+                                  color:
+                                      Colors.black54,
+                                ),
+
+                                child:
+                                    const Text(
+                                  "Recent",
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                const Padding(
+
                   padding: EdgeInsets.all(12),
 
                   child: Text(
@@ -99,7 +221,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     style: TextStyle(
                       fontSize: 28,
-                      fontWeight: FontWeight.bold,
+                      fontWeight:
+                          FontWeight.bold,
                     ),
                   ),
                 ),
@@ -110,25 +233,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   child: ListView.builder(
 
-                    scrollDirection: Axis.horizontal,
+                    scrollDirection:
+                        Axis.horizontal,
 
                     itemCount: shorts.length,
 
-                    itemBuilder: (context, index) {
+                    itemBuilder:
+                        (context, index) {
 
-                      final video = shorts[index];
+                      final video =
+                          shorts[index];
 
                       return FutureBuilder(
 
                         future: video.file,
 
-                        builder: (context, snapshot) {
+                        builder:
+                            (context, snapshot) {
 
                           if (!snapshot.hasData) {
                             return const SizedBox();
                           }
 
-                          final file = snapshot.data!;
+                          final file =
+                              snapshot.data!;
 
                           return GestureDetector(
 
@@ -140,10 +268,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                 MaterialPageRoute(
 
-                                  builder: (_) => PlayerScreen(
+                                  builder: (_) =>
+                                      PlayerScreen(
                                     file: file,
                                     videos: shorts,
-                                    currentIndex: index,
+                                    currentIndex:
+                                        index,
                                   ),
                                 ),
                               );
@@ -152,13 +282,20 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Container(
 
                               width: 150,
-                              margin: const EdgeInsets.all(10),
 
-                              decoration: BoxDecoration(
+                              margin:
+                                  const EdgeInsets
+                                      .all(10),
+
+                              decoration:
+                                  BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.circular(20),
+                                    BorderRadius
+                                        .circular(
+                                            20),
 
-                                color: Colors.black12,
+                                color:
+                                    Colors.black12,
                               ),
 
                               child: Stack(
@@ -169,7 +306,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                     child:
                                         VideoThumbnailWidget(
-                                      path: file.path,
+                                      path:
+                                          file.path,
                                     ),
                                   ),
 
@@ -183,19 +321,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                       children: [
 
                                         const Icon(
-                                          Icons.play_circle_fill,
-                                          color: Colors.white,
+                                          Icons
+                                              .play_circle_fill,
+
+                                          color: Colors
+                                              .white,
                                         ),
 
-                                        const SizedBox(width: 5),
+                                        const SizedBox(
+                                            width:
+                                                5),
 
                                         Text(
                                           "${video.duration}s",
 
                                           style:
                                               const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
+                                            color:
+                                                Colors
+                                                    .white,
+
+                                            fontSize:
+                                                16,
                                           ),
                                         ),
                                       ],
@@ -212,6 +359,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
                 const Padding(
+
                   padding: EdgeInsets.all(12),
 
                   child: Text(
@@ -219,7 +367,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     style: TextStyle(
                       fontSize: 28,
-                      fontWeight: FontWeight.bold,
+                      fontWeight:
+                          FontWeight.bold,
                     ),
                   ),
                 ),
@@ -233,21 +382,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   itemCount: videos.length,
 
-                  itemBuilder: (context, index) {
+                  itemBuilder:
+                      (context, index) {
 
-                    final video = videos[index];
+                    final video =
+                        videos[index];
 
                     return FutureBuilder(
 
                       future: video.file,
 
-                      builder: (context, snapshot) {
+                      builder:
+                          (context, snapshot) {
 
                         if (!snapshot.hasData) {
                           return const SizedBox();
                         }
 
-                        final file = snapshot.data!;
+                        final file =
+                            snapshot.data!;
 
                         return GestureDetector(
 
@@ -259,10 +412,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               MaterialPageRoute(
 
-                                builder: (_) => PlayerScreen(
+                                builder: (_) =>
+                                    PlayerScreen(
                                   file: file,
                                   videos: videos,
-                                  currentIndex: index,
+                                  currentIndex:
+                                      index,
                                 ),
                               ),
                             );
@@ -273,13 +428,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 120,
 
                             margin:
-                                const EdgeInsets.all(12),
+                                const EdgeInsets
+                                    .all(12),
 
-                            decoration: BoxDecoration(
+                            decoration:
+                                BoxDecoration(
                               borderRadius:
-                                  BorderRadius.circular(20),
+                                  BorderRadius
+                                      .circular(
+                                          20),
 
-                              color: Colors.black12,
+                              color:
+                                  Colors.black12,
                             ),
 
                             child: Row(
@@ -292,7 +452,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                   child:
                                       VideoThumbnailWidget(
-                                    path: file.path,
+                                    path:
+                                        file.path,
                                   ),
                                 ),
 
@@ -301,7 +462,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Padding(
 
                                     padding:
-                                        const EdgeInsets.all(12),
+                                        const EdgeInsets
+                                            .all(
+                                                12),
 
                                     child: Column(
 
@@ -319,18 +482,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                           video.title ??
                                               "Video",
 
-                                          maxLines: 1,
+                                          maxLines:
+                                              1,
 
                                           style:
                                               const TextStyle(
-                                            fontSize: 18,
+                                            fontSize:
+                                                18,
+
                                             fontWeight:
                                                 FontWeight.bold,
                                           ),
                                         ),
 
                                         const SizedBox(
-                                            height: 8),
+                                            height:
+                                                8),
 
                                         Text(
                                           "${video.duration ~/ 60} min",
@@ -349,11 +516,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const Padding(
 
                                   padding:
-                                      EdgeInsets.all(12),
+                                      EdgeInsets
+                                          .all(
+                                              12),
 
                                   child: Icon(
-                                    Icons.more_vert,
-                                    color: Colors.white,
+                                    Icons
+                                        .more_vert,
+
+                                    color: Colors
+                                        .white,
                                   ),
                                 ),
                               ],
@@ -367,22 +539,29 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
 
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar:
+          BottomNavigationBar(
 
-        backgroundColor: const Color(0xff0b061f),
+        backgroundColor:
+            const Color(0xff0b061f),
 
-        selectedItemColor: Colors.purpleAccent,
-        unselectedItemColor: Colors.white70,
+        selectedItemColor:
+            Colors.purpleAccent,
+
+        unselectedItemColor:
+            Colors.white70,
 
         items: const [
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.video_library),
+            icon: Icon(
+                Icons.video_library),
             label: "Videos",
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.music_note),
+            icon: Icon(
+                Icons.music_note),
             label: "Music",
           ),
 
