@@ -7,15 +7,18 @@ import '../services/history_service.dart';
 import '../widgets/video_thumbnail_widget.dart';
 
 import 'player_screen.dart';
+import 'search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() =>
+      _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState
+    extends State<HomeScreen> {
 
   List videos = [];
   List shorts = [];
@@ -80,7 +83,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
           IconButton(
 
-            onPressed: () {},
+            onPressed: () {
+
+              Navigator.push(
+
+                context,
+
+                MaterialPageRoute(
+
+                  builder: (_) =>
+                      SearchScreen(
+                    videos: videos,
+                  ),
+                ),
+              );
+            },
 
             icon: const Icon(
               Icons.search,
@@ -103,7 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: loading
 
           ? const Center(
-              child: CircularProgressIndicator(),
+              child:
+                  CircularProgressIndicator(),
             )
 
           : ListView(
@@ -114,7 +132,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 const Padding(
 
-                  padding: EdgeInsets.all(12),
+                  padding:
+                      EdgeInsets.all(12),
 
                   child: Text(
                     "Recently Watched",
@@ -138,7 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     scrollDirection:
                         Axis.horizontal,
 
-                    itemCount: history.length,
+                    itemCount:
+                        history.length,
 
                     itemBuilder:
                         (context, index) {
@@ -151,15 +171,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 170,
 
                         margin:
-                            const EdgeInsets.all(
-                                10),
+                            const EdgeInsets
+                                .all(10),
 
-                        decoration: BoxDecoration(
+                        decoration:
+                            BoxDecoration(
                           borderRadius:
                               BorderRadius
-                                  .circular(20),
+                                  .circular(
+                                      20),
 
-                          color: Colors.black12,
+                          color:
+                              Colors.black12,
                         ),
 
                         child: Stack(
@@ -179,24 +202,26 @@ class _HomeScreenState extends State<HomeScreen> {
                               bottom: 10,
                               left: 10,
 
-                              child: Container(
+                              child:
+                                  Container(
 
                                 padding:
                                     const EdgeInsets
                                         .symmetric(
-                                  horizontal: 10,
-                                  vertical: 5,
+                                  horizontal:
+                                      10,
+                                  vertical:
+                                      5,
                                 ),
 
                                 decoration:
                                     BoxDecoration(
                                   borderRadius:
-                                      BorderRadius
-                                          .circular(
-                                              10),
+                                      BorderRadius.circular(
+                                          10),
 
-                                  color:
-                                      Colors.black54,
+                                  color: Colors
+                                      .black54,
                                 ),
 
                                 child:
@@ -214,7 +239,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 const Padding(
 
-                  padding: EdgeInsets.all(12),
+                  padding:
+                      EdgeInsets.all(12),
 
                   child: Text(
                     "Shorts",
@@ -236,7 +262,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     scrollDirection:
                         Axis.horizontal,
 
-                    itemCount: shorts.length,
+                    itemCount:
+                        shorts.length,
 
                     itemBuilder:
                         (context, index) {
@@ -249,9 +276,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         future: video.file,
 
                         builder:
-                            (context, snapshot) {
+                            (context,
+                                snapshot) {
 
-                          if (!snapshot.hasData) {
+                          if (!snapshot
+                              .hasData) {
                             return const SizedBox();
                           }
 
@@ -270,8 +299,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                   builder: (_) =>
                                       PlayerScreen(
-                                    file: file,
-                                    videos: shorts,
+                                    file:
+                                        file,
+                                    videos:
+                                        shorts,
                                     currentIndex:
                                         index,
                                   ),
@@ -279,23 +310,24 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
 
-                            child: Container(
+                            child:
+                                Container(
 
                               width: 150,
 
                               margin:
                                   const EdgeInsets
-                                      .all(10),
+                                      .all(
+                                          10),
 
                               decoration:
                                   BoxDecoration(
                                 borderRadius:
-                                    BorderRadius
-                                        .circular(
-                                            20),
+                                    BorderRadius.circular(
+                                        20),
 
-                                color:
-                                    Colors.black12,
+                                color: Colors
+                                    .black12,
                               ),
 
                               child: Stack(
@@ -306,17 +338,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                     child:
                                         VideoThumbnailWidget(
-                                      path:
-                                          file.path,
+                                      path: file
+                                          .path,
                                     ),
                                   ),
 
                                   Positioned(
 
-                                    bottom: 10,
-                                    left: 10,
+                                    bottom:
+                                        10,
+                                    left:
+                                        10,
 
-                                    child: Row(
+                                    child:
+                                        Row(
 
                                       children: [
 
@@ -324,8 +359,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Icons
                                               .play_circle_fill,
 
-                                          color: Colors
-                                              .white,
+                                          color:
+                                              Colors.white,
                                         ),
 
                                         const SizedBox(
@@ -338,8 +373,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           style:
                                               const TextStyle(
                                             color:
-                                                Colors
-                                                    .white,
+                                                Colors.white,
 
                                             fontSize:
                                                 16,
@@ -360,7 +394,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 const Padding(
 
-                  padding: EdgeInsets.all(12),
+                  padding:
+                      EdgeInsets.all(12),
 
                   child: Text(
                     "All Videos",
@@ -380,7 +415,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   shrinkWrap: true,
 
-                  itemCount: videos.length,
+                  itemCount:
+                      videos.length,
 
                   itemBuilder:
                       (context, index) {
@@ -390,12 +426,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     return FutureBuilder(
 
-                      future: video.file,
+                      future:
+                          video.file,
 
                       builder:
-                          (context, snapshot) {
+                          (context,
+                              snapshot) {
 
-                        if (!snapshot.hasData) {
+                        if (!snapshot
+                            .hasData) {
                           return const SizedBox();
                         }
 
@@ -414,8 +453,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                 builder: (_) =>
                                     PlayerScreen(
-                                  file: file,
-                                  videos: videos,
+                                  file:
+                                      file,
+                                  videos:
+                                      videos,
                                   currentIndex:
                                       index,
                                 ),
@@ -423,23 +464,25 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           },
 
-                          child: Container(
+                          child:
+                              Container(
 
-                            height: 120,
+                            height:
+                                120,
 
                             margin:
                                 const EdgeInsets
-                                    .all(12),
+                                    .all(
+                                        12),
 
                             decoration:
                                 BoxDecoration(
                               borderRadius:
-                                  BorderRadius
-                                      .circular(
-                                          20),
+                                  BorderRadius.circular(
+                                      20),
 
-                              color:
-                                  Colors.black12,
+                              color: Colors
+                                  .black12,
                             ),
 
                             child: Row(
@@ -448,7 +491,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                 SizedBox(
 
-                                  width: 170,
+                                  width:
+                                      170,
 
                                   child:
                                       VideoThumbnailWidget(
@@ -459,14 +503,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                 Expanded(
 
-                                  child: Padding(
+                                  child:
+                                      Padding(
 
                                     padding:
                                         const EdgeInsets
                                             .all(
                                                 12),
 
-                                    child: Column(
+                                    child:
+                                        Column(
 
                                       crossAxisAlignment:
                                           CrossAxisAlignment
@@ -524,8 +570,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Icons
                                         .more_vert,
 
-                                    color: Colors
-                                        .white,
+                                    color:
+                                        Colors.white,
                                   ),
                                 ),
                               ],
@@ -554,14 +600,14 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const [
 
           BottomNavigationBarItem(
-            icon: Icon(
-                Icons.video_library),
+            icon: Icon(Icons
+                .video_library),
             label: "Videos",
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(
-                Icons.music_note),
+            icon:
+                Icon(Icons.music_note),
             label: "Music",
           ),
 
