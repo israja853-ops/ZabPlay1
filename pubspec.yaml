@@ -1,0 +1,16 @@
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+
+  photo_manager: ^3.0.0
+  permission_handler: ^11.3.1
+
+  video_player: ^2.8.2
+  better_player: ^0.0.84
+
+  provider: ^6.1.2
+  shared_preferences: ^2.2.2
+
+  video_thumbnail: ^0.5.3
