@@ -4,6 +4,7 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/video_thumbnail_widget.dart';
+import '../services/history_service.dart';
 
 class PlayerScreen extends StatefulWidget {
 
@@ -46,6 +47,7 @@ class _PlayerScreenState
     controller = BetterPlayerController(
 
       BetterPlayerConfiguration(
+
         autoPlay: true,
         fit: BoxFit.cover,
         aspectRatio: 16 / 9,
@@ -63,6 +65,10 @@ class _PlayerScreenState
     );
 
     controller!.setupDataSource(dataSource);
+
+    HistoryService.saveVideo(
+      widget.file.path,
+    );
 
     controller!.addEventsListener((event) {
 
@@ -104,6 +110,14 @@ class _PlayerScreenState
   }
 
   @override
+  void dispose() {
+
+    controller?.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
@@ -117,6 +131,7 @@ class _PlayerScreenState
           children: [
 
             AspectRatio(
+
               aspectRatio: 16 / 9,
 
               child: BetterPlayer(
@@ -202,6 +217,7 @@ class _PlayerScreenState
                             children: [
 
                               SizedBox(
+
                                 width: 160,
 
                                 child:
@@ -220,10 +236,12 @@ class _PlayerScreenState
                                   child: Column(
 
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment
+                                            .start,
 
                                     mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                        MainAxisAlignment
+                                            .center,
 
                                     children: [
 
@@ -253,6 +271,7 @@ class _PlayerScreenState
                               ),
 
                               const Padding(
+
                                 padding:
                                     EdgeInsets.all(12),
 
