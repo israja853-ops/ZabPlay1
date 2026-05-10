@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/video_scanner.dart';
 import 'package:photo_manager/photo_manager.dart';
 import '../widgets/video_thumbnail_widget.dart';
+import 'player_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
